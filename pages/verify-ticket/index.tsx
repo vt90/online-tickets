@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import {useRouter} from "next/router";
+import {withPageAuthRequired} from "@auth0/nextjs-auth0";
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
-import { Alert, Container, Typography } from '@mui/material';
+import {Alert, Box, Button, Container, Divider, Typography} from '@mui/material';
 import {useMutation } from '@tanstack/react-query';
 import ListLoadingIndicator from "../../components/ListLoadingIndcator";
 import {validateTicket} from "../../services/tickets";
@@ -12,11 +13,11 @@ export default function VerifyTicket() {
     const router = useRouter();
     const { code } = router.query;
 
-    const {isLoading, mutate, error, data } = useMutation(validateTicket);
+    const {isLoading, mutate, error } = useMutation(validateTicket);
 
     useEffect(() => {
         mutate(`${code}`);
-    }, [code])
+    }, [code, mutate])
 
     return (
         <>
@@ -48,6 +49,28 @@ export default function VerifyTicket() {
                 }
 
             </Container>
+
+            <Box
+                sx={{
+                    backdropFilter: 'saturate(110%) blur(3px)',
+                    backgroundColor: 'hsla(0,0%,100%,.2)!important',
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
+                    width: '100vw',
+                }}
+            >
+                <Divider/>
+                <Container>
+                    <Box sx={{my: 1, px: 1, display: 'flex', justifyContent: 'flex-end'}}>
+                        <Button color="inherit" size="large" component="a" href="/api/auth/logout" sx={{ mr: 3 }}>
+                            Logout
+                        </Button>
+                    </Box>
+                </Container>
+            </Box>
         </>
     )
 }
+
+export const getServerSideProps = withPageAuthRequired();

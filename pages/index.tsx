@@ -1,10 +1,11 @@
 import {useState} from 'react';
-import {createTicket, getTickets, TICKET_QUERIES} from "../services/tickets";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import Head from "next/head";
+import {withPageAuthRequired} from "@auth0/nextjs-auth0";
 import {Alert, Box, Button, Container, Divider} from "@mui/material";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import TicketList from "../components/Ticket/List";
 import TicketForm from "../components/Ticket/Form";
-import Head from "next/head";
+import {createTicket, getTickets, TICKET_QUERIES} from "../services/tickets";
 
 export default function Home() {
     const [showForm, setShowForm] = useState(false);
@@ -51,6 +52,9 @@ export default function Home() {
                 <Divider/>
                 <Container>
                     <Box sx={{my: 1, px: 1, display: 'flex', justifyContent: 'flex-end'}}>
+                        <Button color="inherit" size="large" component="a" href="/api/auth/logout" sx={{ mr: 3 }}>
+                            Logout
+                        </Button>
                         <Button variant="contained" size="large" onClick={() => setShowForm(true)}>
                             Bilet nou
                         </Button>
@@ -63,3 +67,5 @@ export default function Home() {
         </>
   )
 }
+
+export const getServerSideProps = withPageAuthRequired();

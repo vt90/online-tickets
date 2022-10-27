@@ -1,17 +1,17 @@
 import moment from "moment";
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {v4 as uuidv4} from "uuid";
+import {withApiAuthRequired} from '@auth0/nextjs-auth0';
 import {sendEmail} from "../../../services/email";
 import {addTicket} from "../../../services/googleSheets";
 import {generateQRCode} from "../../../services/qrCode";
 import {encodeTicketInfo} from "../../../services/tickets";
 import {validateTicket} from "../../../models/ticket";
+import {validateUserClaims} from "../../../services/auth";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
-) {
+export default withApiAuthRequired(async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
+    await validateUserClaims(req, res);
     const ticket = req.body;
 
     validateTicket(ticket);
@@ -19,7 +19,7 @@ export default async function handler(
     ticket._id = uuidv4();
     ticket.createdAt = moment().toISOString();
 
-    const rowData = await addTicket({
+    await addTicket({
       'ID': ticket._id,
       'Nume': ticket.lastName,
       'Prenume': ticket.firstName,
@@ -61,5 +61,4 @@ export default async function handler(
     // @ts-ignore
     res.status(500).json({ name: 'Internal server error', error: error?.message || error })
   }
-
-}
+});

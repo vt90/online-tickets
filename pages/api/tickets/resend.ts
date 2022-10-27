@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import {withApiAuthRequired} from '@auth0/nextjs-auth0';
+import {validateUserClaims} from "../../../services/auth";
 import {sendEmail} from "../../../services/email";
 import {generateQRCode} from "../../../services/qrCode";
 import {encodeTicketInfo} from "../../../services/tickets";
 import {validateTicket} from "../../../models/ticket";
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<any>
-) {
+export default withApiAuthRequired(async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   try {
+    await validateUserClaims(req, res);
     const ticket = req.body;
 
     validateTicket(ticket);
@@ -44,4 +44,4 @@ export default async function handler(
     // @ts-ignore
     res.status(500).json({ name: 'Internal server error', error: error?.message || error })
   }
-}
+});

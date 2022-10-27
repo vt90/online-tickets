@@ -1,6 +1,7 @@
 import React from 'react';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
+import {UserProvider} from '@auth0/nextjs-auth0';
 import {CacheProvider} from '@emotion/react';
 import {ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,14 +22,18 @@ function MyApp(props: AppProps) {
     return (
         <QueryClientProvider client={queryClient}>
             <CacheProvider value={emotionCache}>
-                <Head>
-                    <meta name="viewport" content="initial-scale=1, width=device-width"/>
-                </Head>
-                <ThemeProvider theme={theme}>
-                    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                    <CssBaseline/>
-                    <Component {...pageProps} />
-                </ThemeProvider>
+                <UserProvider>
+                    <Head>
+                        <meta name="viewport" content="initial-scale=1, width=device-width"/>
+
+                        <title>Bilete</title>
+                    </Head>
+                    <ThemeProvider theme={theme}>
+                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                        <CssBaseline/>
+                        <Component {...pageProps} />
+                    </ThemeProvider>
+                </UserProvider>
             </CacheProvider>
         </QueryClientProvider>
     );
