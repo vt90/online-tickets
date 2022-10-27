@@ -23,6 +23,7 @@ export const getTickets = async (): Promise<ITicket[]> => {
     return sheetRows.reduce((acc: ITicket[], cur) => {
         // @ts-ignore
         if (cur['ID'] && cur['Nume'] && cur['Prenume'] && cur['Email']) {
+            // @ts-ignore
             acc.push(mapGoogleTicketToModel(cur));
         }
 

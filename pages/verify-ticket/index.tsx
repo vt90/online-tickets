@@ -8,12 +8,6 @@ import {useMutation } from '@tanstack/react-query';
 import ListLoadingIndicator from "../../components/ListLoadingIndcator";
 import {validateTicket} from "../../services/tickets";
 
-const INITIAL_VALUES = {
-    firstName: 'Vlad',
-    lastName: 'Tomsa',
-    email: 'tomsavlad90@gmail.com'
-};
-
 export default function VerifyTicket() {
     const router = useRouter();
     const { code } = router.query;
