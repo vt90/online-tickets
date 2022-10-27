@@ -31,7 +31,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
     });
 
     const qrInfo = encodeTicketInfo(ticket);
-    const url = `${process.env.VERCEL_URL}/verify-ticket?code=${qrInfo}`;
+    const url = `${process.env.AUTH0_BASE_URL}/verify-ticket?code=${qrInfo}`;
     const qrCode = await generateQRCode(url);
     const imageb64 = qrCode.replace('data:image/png;base64,' , '');
 
