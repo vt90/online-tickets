@@ -1,9 +1,55 @@
+@font-face {
+  font-family: 'Poppins';
+  src: url('../public/static/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('../public/static/fonts/Gilroy-Thin.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('../public/static/fonts/Gilroy-Semibold.woff2') format('woff2'),
+  url('../public/static/fonts/Gilroy-Semibold.woff') format('woff'),
+  url('../public/static/fonts/Gilroy-Semibold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('../public/static/fonts/Gilroy-Bold.woff2') format('woff2'),
+  url('../public/static/fonts/Gilroy-Bold.woff') format('woff'),
+  url('../public/static/fonts/Gilroy-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../public/static/fonts/OpenSans-Regular.woff2') format('woff2'),
+  url('../public/static/fonts/OpenSans-Regular.woff') format('woff'),
+  url('../public/static/fonts/OpenSans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Gilroy Poppins Raleway -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
