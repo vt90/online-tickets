@@ -44,3 +44,4 @@ export const TICKET_KEY_NAME_PAIR = {
     hasBeenUsedTimestamp: 'Data Folosirii',
     actions: 'Actiuni'
 };
+
