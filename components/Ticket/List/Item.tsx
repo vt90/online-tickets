@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 import moment from "moment";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -37,10 +35,14 @@ const TicketListItem = (props: ITicketListItemProps) => {
                 return <Typography>{ticket.firstName} {ticket.lastName}</Typography>;
             case 'createdAt':
             case 'hasBeenUsedTimestamp':
+            case 'hasBeenUsedPartyTimestamp':
                 // @ts-ignore
                 return <Typography color="textSecondary">{ticket[key] && moment(ticket[key]).format('YYYY.MM.DD HH:mm')}</Typography>;
+            case 'isAdult':
+                return <Typography color="textSecondary">{ticket[key] ? 'Da' : 'Nu'}</Typography>;
             case 'hasBeenUsed':
-                return <Typography color="textSecondary">{ticket[key] ? <CheckCircleIcon /> : <CloseIcon />}</Typography>;
+            case 'hasBeenUsedParty':
+                return <Typography color="textSecondary">{ticket[key] ? `Da ${moment(ticket[`${key}Timestamp`]).format('YYYY.MM.DD HH:mm')}` : 'Nu'}</Typography>;
             case 'actions':
                 return (
                     <LoadingButton
@@ -92,7 +94,7 @@ const TicketListItem = (props: ITicketListItemProps) => {
                 }}
             >
                 {Object.keys(TICKET_KEY_NAME_PAIR).map((key, index) => (
-                    <TableCell key={key} align={index ? 'right' : 'left'}>
+                    <TableCell key={key} align={index > 1 ? 'right' : 'left'}>
                         {renderTicketValue(key, ticket)}
                     </TableCell>
                 ))}

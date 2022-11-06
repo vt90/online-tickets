@@ -6,10 +6,11 @@ import Drawer from '@mui/material/Drawer';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import {ITicket} from "../../../models/ticket";
+import YesNoToggle from "../../YesNoToggle";
 
 interface ITicketFormProps {
     isOpen: boolean;
@@ -25,10 +26,17 @@ const schema = yup.object({
 
 const TicketForm = (props: ITicketFormProps) => {
     const { isOpen, isLoading, onSubmit, onClose,  } = props;
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { control, register, handleSubmit, formState: { errors } } = useForm({
         mode: 'onTouched',
         resolver: yupResolver(schema),
         shouldUnregister: true,
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            isAdult: true,
+            includesAfterParty: true,
+        }
     });
 
 
@@ -94,6 +102,55 @@ const TicketForm = (props: ITicketFormProps) => {
                                 required={true}
                                 helperText={!!errors.email && 'Email invalid'}
                                 {...register("email")}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Controller
+                                name="isAdult"
+                                control={control}
+                                render={({ field }) => {
+                                    const { value, onChange } = field;
+
+                                    return (
+                                        <YesNoToggle
+                                            label="Major"
+                                            // @ts-ignore
+                                            yesColor="primary"
+                                            // @ts-ignore
+                                            noColor="primary"
+                                            value={value}
+                                            onValueChange={(newValue) => {
+                                                onChange(newValue);
+                                            }}
+                                        />
+
+                                    );
+                                }}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Controller
+                                name="includesAfterParty"
+                                control={control}
+                                render={({ field }) => {
+                                    const { value, onChange } = field;
+
+                                    return (
+                                        <YesNoToggle
+                                            label="Include bilet party"
+                                            // @ts-ignore
+                                            yesColor="primary"
+                                            // @ts-ignore
+                                            noColor="primary"
+                                            value={value}
+                                            onValueChange={(newValue) => {
+                                                onChange(newValue);
+                                            }}
+                                        />
+
+                                    );
+                                }}
                             />
                         </Grid>
                     </Grid>

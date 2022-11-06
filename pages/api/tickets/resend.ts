@@ -16,6 +16,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
     const qrInfo = encodeTicketInfo(ticket);
     const url = `${process.env.AUTH0_BASE_URL}/verify-ticket?code=${qrInfo}`;
     const qrCode = await generateQRCode(url);
+
     const imageb64 = qrCode.replace('data:image/png;base64,' , '');
 
     await sendEmail({
@@ -24,7 +25,7 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
       html: `
         <div style="padding: 70px 30px">
             <h1 style="text-align: center">Comanda confirmata</h1>
-            
+
             <p style="text-align: center">
                 Draga ${ticket.firstName} <br />
                 Iti multumim pentru achizitia biletului. Atasat acestui mail este codul de access QR pe care va trebui sa-l prezinti la intrare.

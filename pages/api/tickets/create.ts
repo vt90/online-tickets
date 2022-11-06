@@ -24,10 +24,15 @@ export default withApiAuthRequired(async function handler(req: NextApiRequest, r
       'Nume': ticket.lastName,
       'Prenume': ticket.firstName,
       'Email': ticket.email,
-      'Data Achizitiei': ticket.createdAt,
-      'Bilet Folosit': false,
+      'Major(a)': ticket.isAdult,
+      'Include After Party': ticket.includesAfterParty,
+      'Bilet Folosit (Bal)': false,
+      'Bilet Folosit (Party)': false,
       // @ts-ignore
-      'Data Folosirii': null,
+      'Data Folosirii (Bal)': null,
+      // @ts-ignore
+      'Data Folosirii (Party)': null,
+      'Data Achizitiei': ticket.createdAt,
     });
 
     const qrInfo = encodeTicketInfo(ticket);

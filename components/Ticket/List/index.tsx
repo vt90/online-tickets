@@ -55,7 +55,7 @@ const TicketList = (props: ITicketListProps) => {
                 <TableHead>
                     <TableRow>
                         {Object.values(TICKET_KEY_NAME_PAIR).map((title, index) => (
-                            <TableCell key={title} align={index ? 'right' : 'left'}>
+                            <TableCell key={title} align={index > 1 ? 'right' : 'left'}>
                                 <Typography variant="body2">
                                     {title}
                                 </Typography>

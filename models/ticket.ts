@@ -3,19 +3,27 @@ export interface ITicket {
     firstName: string;
     lastName: string;
     email: string;
-    createdAt?: string;
+    isAdult?: boolean;
+    includesAfterParty?: boolean;
     hasBeenUsed?: boolean;
-    hasBeenUsedTimestamp?: boolean;
+    hasBeenUsedParty?: boolean;
+    hasBeenUsedTimestamp?: string;
+    hasBeenUsedPartyTimestamp?: string;
+    createdAt?: string;
 }
 
 export interface IGoogleTicket {
     ID: string;
     Nume: string;
     Prenume: string;
+    Major: string;
     Email: string;
+    'Include After Party': boolean | string;
+    'Bilet Folosit (Bal)': boolean | string;
+    'Bilet Folosit (Party)': boolean | string;
+    'Data Folosirii (Bal)': string;
+    'Data Folosirii (Party)': string;
     'Data Achizitiei': string;
-    'Bilet Folosit': boolean | string;
-    'Data Folosirii': string;
 }
 
 export const mapGoogleTicketToModel = (googleTicket: IGoogleTicket) => ({
@@ -24,8 +32,18 @@ export const mapGoogleTicketToModel = (googleTicket: IGoogleTicket) => ({
     lastName: googleTicket['Nume'],
     email: googleTicket['Email'],
     createdAt: googleTicket['Data Achizitiei'],
-    hasBeenUsed: googleTicket['Bilet Folosit'] === 'TRUE',
-    hasBeenUsedTimestamp: googleTicket['Data Folosirii'],
+    // @ts-ignore
+    isAdult: googleTicket['Major(a)'] === 'TRUE',
+    // @ts-ignore
+    includesAfterParty: googleTicket['Include After Party'] === 'TRUE',
+    // @ts-ignore
+    hasBeenUsed: googleTicket['Bilet Folosit (Bal)'] === 'TRUE',
+    // @ts-ignore
+    hasBeenUsedTimestamp: googleTicket['Data Folosirii (Bal)'],
+    // @ts-ignore
+    hasBeenUsedParty: googleTicket['Bilet Folosit (Party)'] === 'TRUE',
+    // @ts-ignore
+    hasBeenUsedPartyTimestamp: googleTicket['Data Folosirii (Party)'],
 });
 
 // @ts-ignore
@@ -39,9 +57,12 @@ export const TICKET_KEY_NAME_PAIR = {
     // _id: 'ID',
     name: 'Nume',
     email: 'Email',
+    isAdult: 'Major(a)',
+    hasBeenUsed: 'Bilet Folosit (Bal)',
+    hasBeenUsedParty: 'Bilet Folosit (Party)',
+    // hasBeenUsedTimestamp: 'Data Folosirii (Bal)',
     createdAt: 'Data Achizitiei',
-    hasBeenUsed: 'Bilet Folosit',
-    hasBeenUsedTimestamp: 'Data Folosirii',
+    // hasBeenUsedTimestampParty: 'Data Folosirii  (Party)',
     actions: 'Actiuni'
 };
 

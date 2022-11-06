@@ -10,7 +10,7 @@ export default withApiAuthRequired(async function handler(
 ) {
     try {
         await validateUserClaims(req, res);
-        const {code} = req.query;
+        const {code, type} = req.query;
 
         // @ts-ignore
         const qrInfo = decodeTicketInfo(code);
@@ -30,13 +30,18 @@ export default withApiAuthRequired(async function handler(
             throw new Error('Bilet inexistent');
         }
 
-        if (tickets[ticketIndex].hasBeenUsed) {
+        if (type === 'Bal' && tickets[ticketIndex].hasBeenUsed) {
             // noinspection ExceptionCaughtLocallyJS
             throw new Error(`Biletul a fost folosit deja in data de ${tickets[ticketIndex].hasBeenUsedTimestamp}`);
         }
 
+        if (type === 'Party' && tickets[ticketIndex].hasBeenUsedParty) {
+            // noinspection ExceptionCaughtLocallyJS
+            throw new Error(`Biletul a fost folosit deja in data de ${tickets[ticketIndex].hasBeenUsedPartyTimestamp}`);
+        }
+
         // @ts-ignore
-        await updateTicketHasBeenUsed(tickets[ticketIndex]._id);
+        await updateTicketHasBeenUsed(tickets[ticketIndex]._id, type);
 
         res.status(200).json({success: true})
     } catch (error) {

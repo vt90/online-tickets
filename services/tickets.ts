@@ -37,8 +37,9 @@ export const resendEmail = async(ticket: ITicket) : Promise<ITicket> => {
     return await httpInstance.post('/tickets/resend', ticket);
 }
 
-export const validateTicket = async(code: string) : Promise<ITicket> => {
-    return await httpInstance.get('/tickets/verify', { params: { code } });
+// @ts-ignore
+export const validateTicket = async({ code, type }) : Promise<ITicket> => {
+    return await httpInstance.get('/tickets/verify', { params: { code, type } });
 }
 
 export const encodeTicketInfo = (ticket: ITicket): string => {

@@ -41,7 +41,7 @@ export const addTicket = async (ticket: IGoogleTicket) => {
 }
 
 
-export const updateTicketHasBeenUsed = async (ticketId: string) => {
+export const updateTicketHasBeenUsed = async (ticketId: string, type: string) => {
     const spreadsheets = await authenticateAndGetSheetRef();
 
     const sheetRows = await spreadsheets.sheetsByIndex[0].getRows();
@@ -50,8 +50,8 @@ export const updateTicketHasBeenUsed = async (ticketId: string) => {
 
     if (ticketRowIndex === -1) throw new Error(`Eroare aparuta updatand utilizarea biletului ${ticketId}`);
 
-    sheetRows[ticketRowIndex]['Bilet Folosit'] = true;
-    sheetRows[ticketRowIndex]['Data Folosirii'] = moment().toISOString();;
+    sheetRows[ticketRowIndex][`Bilet Folosit (${type})`] = true;
+    sheetRows[ticketRowIndex][`Data Folosirii (${type})`] = moment().toISOString();
 
     await sheetRows[ticketRowIndex].save();
 }
